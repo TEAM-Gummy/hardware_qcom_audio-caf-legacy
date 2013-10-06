@@ -380,7 +380,7 @@ AudioHardwareALSA::AudioHardwareALSA() :
     mALSADevice->setFlags(mDevSettingsFlag);
 
     //set default AudioParameters for surround sound recording
-    char ssr_enabled[6] = "false";
+    char ssr_enabled[PROP_VALUE_MAX] = "false";
     property_get("ro.qc.sdk.audio.ssr",ssr_enabled,"0");
     if (!strncmp("true", ssr_enabled, 4)) {
         ALOGD("surround sound recording is supported");
@@ -861,7 +861,7 @@ String8 AudioHardwareALSA::getParameters(const String8& keys)
 #ifdef QCOM_SSR_ENABLED
     key = String8(AUDIO_PARAMETER_KEY_SSR);
     if (param.get(key, value) == NO_ERROR) {
-        char ssr_enabled[6] = "false";
+        char ssr_enabled[PROP_VALUE_MAX] = "false";
         property_get("ro.qc.sdk.audio.ssr",ssr_enabled,"0");
         if (!strncmp("true", ssr_enabled, 4)) {
             value = String8("true");
@@ -1908,7 +1908,7 @@ AudioHardwareALSA::openInputStream(uint32_t devices,
                 || !strncmp(it->useCase, SND_USE_CASE_MOD_CAPTURE_MUSIC, strlen(SND_USE_CASE_MOD_CAPTURE_MUSIC))
                 || !strncmp(it->useCase, SND_USE_CASE_MOD_CAPTURE_MUSIC_COMPRESSED, strlen(SND_USE_CASE_MOD_CAPTURE_MUSIC_COMPRESSED))) {
                 //Check if SSR is supported by reading system property
-                char ssr_enabled[6] = "false";
+                char ssr_enabled[PROP_VALUE_MAX] = "false";
                 property_get("ro.qc.sdk.audio.ssr",ssr_enabled,"0");
                 if (strncmp("true", ssr_enabled, 4)) {
                     if (status) *status = err;
