@@ -359,7 +359,11 @@ AudioHardwareALSA::AudioHardwareALSA() :
 
     //Set default AudioParameter for fluencetype
     key  = String8(AUDIO_PARAMETER_KEY_FLUENCE_TYPE);
-    property_get("ro.qc.sdk.audio.fluencetype",mFluenceKey,"0");
+
+    // Increase buffer of mFluenceKey for property_get()
+    char fluence[PROPERTY_VALUE_MAX] = "false";
+    
+    property_get("ro.qc.sdk.audio.fluencetype", fluence, "0");
     if (0 == strncmp("fluencepro", mFluenceKey, sizeof("fluencepro"))) {
         mDevSettingsFlag |= QMIC_FLAG;
         mDevSettingsFlag &= (~DMIC_FLAG);
